@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuro Trace — Découvre ton profil amoureux</title>
+    <meta name="description" content="Quiz psychologique : découvre ton style d'attachement en couple en 2 minutes. Basé sur la théorie de l'attachement.">
+    <meta property="og:title" content="Neuro Trace — Découvre ton profil amoureux">
+    <meta property="og:description" content="11 questions pour comprendre comment tu aimes — et pourquoi tes relations suivent toujours le même schéma.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a25;
+            --cyan:#00e5ff;--orange:#ff9d2e;--magenta:#ff2eaa;--purple:#a855f7;--rose:#f43f5e;
+            --tx:#e8e8f0;--tx2:#8888a0;--txb:#ffffff;--brd:#2a2a3a;
+        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+        /* BG */
+        .bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(0,229,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+        .bg-g{position:fixed;width:600px;height:600px;border-radius:50%;filter:blur(150px);opacity:.12;pointer-events:none;z-index:0}
+        .bg-g1{background:var(--cyan);top:-200px;left:-200px}
+        .bg-g2{background:var(--magenta);bottom:-200px;right:-200px}
+
+        /* Layout */
+        .wrap{position:relative;z-index:1;max-width:700px;margin:0 auto;padding:20px;min-height:100vh}
+
+        /* Header */
+        .hdr{text-align:center;padding:40px 0 20px}
+        .logo{font-family:'Space Mono',monospace;font-size:1.1rem;letter-spacing:6px;text-transform:uppercase;color:var(--cyan);text-shadow:0 0 30px rgba(0,229,255,.3)}
+        .logo-d{display:inline-block;width:6px;height:6px;background:var(--magenta);border-radius:50%;margin:0 4px;box-shadow:0 0 20px rgba(255,46,170,.4);vertical-align:middle}
+
+        /* Sections */
+        .sec{display:none;animation:fu .6s ease forwards}
+        .sec.on{display:block}
+        @keyframes fu{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+        /* Landing */
+        .land{text-align:center;padding-top:60px}
+        .badge{display:inline-block;font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,229,255,.3);padding:8px 20px;border-radius:100px;margin-bottom:40px}
+        .land h1{font-size:clamp(2rem,7vw,3.5rem);font-weight:800;line-height:1.1;color:var(--txb);margin-bottom:24px}
+        .hc{color:var(--cyan);text-shadow:0 0 30px rgba(0,229,255,.3)}
+        .hm{color:var(--magenta);text-shadow:0 0 30px rgba(255,46,170,.3)}
+        .land-s{font-size:1.15rem;color:var(--tx2);line-height:1.7;max-width:500px;margin:0 auto 50px;font-weight:300}
+        .feats{display:flex;justify-content:center;gap:30px;margin-bottom:50px;flex-wrap:wrap}
+        .feat{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--tx2)}
+        .btn1{display:inline-block;font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:600;color:var(--bg);background:var(--cyan);border:none;padding:18px 50px;border-radius:60px;cursor:pointer;transition:all .3s;box-shadow:0 0 30px rgba(0,229,255,.3);letter-spacing:.5px}
+        .btn1:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(0,229,255,.5)}
+        .trust{margin-top:40px;font-size:.8rem;color:var(--tx2);opacity:.6}
+
+        /* Quiz */
+        .quiz-c{padding-top:40px}
+        .pbar-w{width:100%;height:4px;background:var(--brd);border-radius:10px;margin-bottom:12px;overflow:hidden}
+        .pbar{height:100%;background:linear-gradient(90deg,var(--cyan),var(--magenta));border-radius:10px;transition:width .5s ease;width:0%}
+        .ptxt{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--tx2);text-align:right;margin-bottom:50px;letter-spacing:1px}
+        .qcard{display:none;animation:fu .5s ease forwards}
+        .qcard.on{display:block}
+        .qnum{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--cyan);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px}
+        .qtxt{font-size:clamp(1.2rem,4vw,1.6rem);font-weight:600;color:var(--txb);line-height:1.4;margin-bottom:40px}
+        .answers{display:flex;flex-direction:column;gap:14px}
+        .abtn{width:100%;text-align:left;font-family:'Outfit',sans-serif;font-size:1rem;font-weight:400;color:var(--tx);background:var(--bg2);border:1px solid var(--brd);padding:20px 24px;border-radius:16px;cursor:pointer;transition:all .25s;line-height:1.5}
+        .abtn:hover{background:var(--bg3);border-color:var(--cyan);color:var(--txb);transform:translateX(6px);box-shadow:inset 3px 0 0 var(--cyan)}
+        .abtn:active{transform:scale(.98)}
+        .abtn .al{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--cyan);margin-right:12px;letter-spacing:1px}
+
+        /* Reveal */
+        .rev-c{text-align:center;padding-top:80px}
+        .rev-o{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--tx2);margin-bottom:20px}
+        .rev-n{font-size:clamp(2.2rem,8vw,3.8rem);font-weight:900;line-height:1.1;margin-bottom:40px;animation:gp 3s ease-in-out infinite}
+        @keyframes gp{0%,100%{text-shadow:0 0 20px rgba(0,229,255,.3)}50%{text-shadow:0 0 40px rgba(0,229,255,.5),0 0 80px rgba(0,229,255,.2)}}
+        .rev-d{font-size:1.1rem;color:var(--tx2);line-height:1.7;max-width:480px;margin:0 auto 50px;font-weight:300}
+
+        /* Paywall card */
+        .pw{background:var(--bg2);border:1px solid var(--brd);border-radius:24px;padding:40px 30px;max-width:480px;margin:0 auto 30px;text-align:left}
+        .pw-t{font-size:1.3rem;font-weight:700;color:var(--txb);margin-bottom:24px;text-align:center}
+        .pw-l{list-style:none;margin-bottom:30px}
+        .pw-l li{padding:10px 0;font-size:.95rem;color:var(--tx);display:flex;align-items:flex-start;gap:12px;line-height:1.5}
+        .pw-l .ck{color:var(--cyan);font-size:1.1rem;flex-shrink:0;margin-top:2px}
+        .pw-pr{text-align:center;margin-bottom:20px}
+        .pw-p{font-size:2.5rem;font-weight:800;color:var(--txb)}
+        .pw-pc{font-size:1.2rem;font-weight:400;color:var(--tx2)}
+        .pw-ps{font-size:.8rem;color:var(--tx2);margin-top:4px}
+        .btn-p{display:block;width:100%;font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:700;color:var(--bg);background:linear-gradient(135deg,var(--cyan),#00b4d8);border:none;padding:18px;border-radius:60px;cursor:pointer;transition:all .3s;box-shadow:0 0 30px rgba(0,229,255,.3)}
+        .btn-p:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(0,229,255,.5)}
+        .pw-sec{text-align:center;margin-top:16px;font-size:.75rem;color:var(--tx2);opacity:.6}
+
+        /* Result */
+        .res-c{padding-top:40px;padding-bottom:80px}
+        .res-h{text-align:center;margin-bottom:60px}
+        .res-b{display:inline-block;font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--bg);background:var(--cyan);padding:6px 16px;border-radius:100px;margin-bottom:20px}
+        .res-n{font-size:clamp(2rem,7vw,3rem);font-weight:900;color:var(--txb);margin-bottom:12px}
+        .res-tl{font-size:1.1rem;color:var(--tx2);font-weight:300}
+        .res-s{background:var(--bg2);border:1px solid var(--brd);border-radius:20px;padding:36px 30px;margin-bottom:24px}
+        .res-s-i{font-size:1.5rem;margin-bottom:12px}
+        .res-s h3{font-size:1.15rem;font-weight:700;color:var(--txb);margin-bottom:16px}
+        .res-s p,.res-s li{font-size:.95rem;color:var(--tx);line-height:1.8}
+        .res-s p{margin-bottom:12px}
+        .res-s ul{list-style:none;padding:0}
+        .res-s ul li{padding:8px 0 8px 20px;position:relative}
+        .res-s ul li::before{content:'';position:absolute;left:0;top:16px;width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px rgba(0,229,255,.5)}
+        .res-div{width:60px;height:2px;background:linear-gradient(90deg,var(--cyan),var(--magenta));margin:40px auto;border-radius:2px}
+
+        /* Upsell */
+        .ups{background:linear-gradient(135deg,rgba(255,157,46,.08),rgba(255,46,170,.08));border:1px solid rgba(255,157,46,.3);border-radius:24px;padding:40px 30px;text-align:center;margin-top:50px}
+        .ups h3{font-size:1.4rem;font-weight:700;color:var(--txb);margin-bottom:16px}
+        .ups p{font-size:.95rem;color:var(--tx2);line-height:1.7;margin-bottom:30px}
+        .btn-u{display:inline-block;font-family:'Outfit',sans-serif;font-size:1rem;font-weight:600;color:var(--bg);background:linear-gradient(135deg,var(--orange),var(--magenta));border:none;padding:16px 40px;border-radius:60px;cursor:pointer;transition:all .3s;box-shadow:0 0 30px rgba(255,157,46,.3);text-decoration:none}
+        .btn-u:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(255,157,46,.4)}
+
+        /* Responsive */
+        @media(max-width:600px){.wrap{padding:16px}.land{padding-top:40px}.feats{gap:16px}.pw{padding:30px 20px}.res-s{padding:28px 20px}}
+    </style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-g bg-g1"></div>
+<div class="bg-g bg-g2"></div>
+
+<div class="wrap">
+    <div class="hdr"><div class="logo">Neuro<span class="logo-d"></span>Trace</div></div>
+
+    <!-- LANDING -->
+    <div id="s-land" class="sec on">
+        <div class="land">
+            <div class="badge">Quiz psychologique</div>
+            <h1>Découvre ton <span class="hc">profil amoureux</span> en 2 minutes</h1>
+            <p class="land-s">11 questions basées sur la théorie de l'attachement pour comprendre comment tu aimes — et pourquoi tes relations suivent toujours le même schéma.</p>
+            <div class="feats">
+                <div class="feat"><span>⏱</span> 2 minutes</div>
+                <div class="feat"><span>🔬</span> Basé sur la psychologie</div>
+                <div class="feat"><span>🎯</span> 5 profils possibles</div>
+            </div>
+            <button class="btn1" onclick="startQuiz()">Commencer le quiz</button>
+            <p class="trust">+ de 12 000 personnes ont déjà fait le test</p>
+        </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div id="s-quiz" class="sec">
+        <div class="quiz-c">
+            <div class="pbar-w"><div class="pbar" id="pbar"></div></div>
+            <div class="ptxt" id="ptxt">1 / 11</div>
+            <div id="qwrap"></div>
+        </div>
+    </div>
+
+    <!-- REVEAL -->
+    <div id="s-rev" class="sec">
+        <div class="rev-c">
+            <div class="rev-o">Ton profil amoureux est...</div>
+            <h2 class="rev-n" id="rev-name"></h2>
+            <p class="rev-d" id="rev-teaser"></p>
+            <div class="pw">
+                <div class="pw-t">Ton analyse complète</div>
+                <ul class="pw-l">
+                    <li><span class="ck">✦</span> Ton style d'attachement décrypté avec des exemples concrets</li>
+                    <li><span class="ck">✦</span> D'où vient ce pattern et pourquoi tu le répètes</li>
+                    <li><span class="ck">✦</span> Tes 3 forces en relation</li>
+                    <li><span class="ck">✦</span> Tes 3 schémas destructeurs (et comment les casser)</li>
+                    <li><span class="ck">✦</span> Ton mode conflit décrypté</li>
+                    <li><span class="ck">✦</span> 5 exercices concrets à appliquer ce soir</li>
+                </ul>
+                <div class="pw-pr">
+                    <div class="pw-p">4<span class="pw-pc">,99 €</span></div>
+                    <div class="pw-ps">Paiement unique · Accès immédiat</div>
+                </div>
+                <button class="btn-p" id="btn-pay" onclick="handlePayment()">Débloquer mon analyse →</button>
+                <p class="pw-sec">🔒 Paiement sécurisé par Stripe</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESULT -->
+    <div id="s-res" class="sec">
+        <div class="res-c" id="res-content"></div>
+    </div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
