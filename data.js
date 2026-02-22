@@ -374,9 +374,9 @@ const QUESTIONS = [
 
 // STRIPE PAYMENT LINKS — Replace these with your real Stripe Payment Links
 const STRIPE_LINKS = {
-    CT: "https://buy.stripe.com/REPLACE_CT",
-    TD: "https://buy.stripe.com/REPLACE_TD",
-    FM: "https://buy.stripe.com/REPLACE_FM",
-    EF: "https://buy.stripe.com/REPLACE_EF",
-    VF: "https://buy.stripe.com/REPLACE_VF"
+    CT: "https://buy.stripe.com/9B63cvaEK8tCdpj3i3aAw00",
+    TD: "https://buy.stripe.com/9B63cvaEK8tCdpj3i3aAw00",
+    FM: "https://buy.stripe.com/9B63cvaEK8tCdpj3i3aAw00",
+    EF: "https://buy.stripe.com/9B63cvaEK8tCdpj3i3aAw00",
+    VF: "https://buy.stripe.com/9B63cvaEK8tCdpj3i3aAw00"
 };
