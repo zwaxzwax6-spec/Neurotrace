@@ -131,6 +131,26 @@ function showReveal() {
     document.getElementById('rev-name').style.color = profile.color;
     document.getElementById('rev-teaser').textContent = profile.teaser;
 
+    // Build blurred preview cards
+    const wrap = document.getElementById('blur-preview');
+    wrap.innerHTML = '';
+    profile.sections.forEach(sec => {
+        // Strip HTML tags to get plain text for blur preview
+        const plainText = sec.content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+        const preview = plainText.substring(0, 180) + '...';
+
+        wrap.innerHTML += `
+            <div class="blur-card">
+                <div class="blur-card-head">
+                    <span class="blur-card-icon">${sec.icon}</span>
+                    <span class="blur-card-title">${sec.title}</span>
+                </div>
+                <div class="blur-card-body">${preview}</div>
+                <div class="blur-card-lock"><span>🔒</span></div>
+            </div>
+        `;
+    });
+
     showSection('s-rev');
 }
 
