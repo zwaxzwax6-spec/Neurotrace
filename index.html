@@ -28,8 +28,8 @@
         .wrap{position:relative;z-index:1;max-width:700px;margin:0 auto;padding:20px;min-height:100vh}
 
         /* Header */
-        .hdr{text-align:center;padding:24px 0 10px}
-        .logo{font-family:'Space Mono',monospace;font-size:1.1rem;letter-spacing:6px;text-transform:uppercase;color:var(--cyan);text-shadow:0 0 30px rgba(0,229,255,.3)}
+        .hdr{text-align:center;padding:16px 0 6px}
+        .logo{font-family:'Space Mono',monospace;font-size:.9rem;letter-spacing:6px;text-transform:uppercase;color:var(--cyan);text-shadow:0 0 30px rgba(0,229,255,.3);opacity:.5}
         .logo-d{display:inline-block;width:6px;height:6px;background:var(--magenta);border-radius:50%;margin:0 4px;box-shadow:0 0 20px rgba(255,46,170,.4);vertical-align:middle}
 
         /* Sections */
@@ -38,8 +38,8 @@
         @keyframes fu{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 
         /* Landing */
-        .land{text-align:center;padding-top:25px}
-        .badge{display:inline-block;font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,229,255,.3);padding:8px 20px;border-radius:100px;margin-bottom:40px}
+        .land{text-align:center;padding-top:20px}
+        .land-hook{font-size:1rem;color:var(--tx2);font-weight:300;font-style:italic;margin-bottom:16px}
         .land h1{font-size:clamp(1.7rem,6vw,3rem);font-weight:800;line-height:1.15;color:var(--txb);margin-bottom:20px}
         .hc{color:var(--cyan);text-shadow:0 0 30px rgba(0,229,255,.3)}
         .hm{color:var(--magenta);text-shadow:0 0 30px rgba(255,46,170,.3)}
@@ -136,15 +136,15 @@
     <!-- LANDING -->
     <div id="s-land" class="sec on">
         <div class="land">
-            <h1>Pourquoi tu <span class="hc">réagis toujours pareil</span> en couple ?</h1>
-            <p class="land-s2">Réponds à 11 situations et découvre le schéma invisible qui contrôle ta façon d'aimer.</p>
-            <button class="btn1" onclick="startQuiz()">Faire le quiz →</button>
+            <p class="land-hook">Toujours les mêmes disputes. Toujours les mêmes doutes. Toujours le même schéma.</p>
+            <h1>Découvre pourquoi <span class="hc">tes relations finissent toutes pareil</span></h1>
+            <p class="land-s2">11 situations de couple. Tes réponses révèlent comment tu fonctionnes en amour — et pourquoi tu attires toujours le même type de personne.</p>
+            <button class="btn1" onclick="startQuiz()">Faire le test →</button>
             <div class="feats">
                 <div class="feat"><span>⏱</span> 2 min</div>
                 <div class="feat"><span>🎯</span> 5 profils</div>
                 <div class="feat"><span>🔒</span> Gratuit</div>
             </div>
-            <p class="trust">+ de 12 000 personnes ont déjà fait le test</p>
         </div>
     </div>
 
