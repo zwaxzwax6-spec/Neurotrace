@@ -1,3 +1,4 @@
+
 // ============================================
 // NEURO TRACE — Quiz Data
 // ============================================
@@ -374,9 +375,9 @@ const QUESTIONS = [
 
 // STRIPE PAYMENT LINKS — Replace these with your real Stripe Payment Links
 const STRIPE_LINKS = {
-    CT: "https://buy.stripe.com/9B63cvaEK8tCdpj3i3aAw00",
-    TD: "https://buy.stripe.com/9B63cvaEK8tCdpj3i3aAw00",
-    FM: "https://buy.stripe.com/9B63cvaEK8tCdpj3i3aAw00",
-    EF: "https://buy.stripe.com/9B63cvaEK8tCdpj3i3aAw00",
-    VF: "https://buy.stripe.com/9B63cvaEK8tCdpj3i3aAw00"
+    CT: "https://buy.stripe.com/00w4gzeV07pyetn19VaAw01",
+    TD: "https://buy.stripe.com/00w4gzeV07pyetn19VaAw01",
+    FM: "https://buy.stripe.com/00w4gzeV07pyetn19VaAw01",
+    EF: "https://buy.stripe.com/00w4gzeV07pyetn19VaAw01",
+    VF: "https://buy.stripe.com/00w4gzeV07pyetn19VaAw01"
 };
