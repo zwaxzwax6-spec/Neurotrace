@@ -156,40 +156,57 @@ function showReveal() {
 
 // --- Handle Payment ---
 function handlePayment() {
-    // Check if we're returning from payment (demo mode) or redirecting to Stripe
+    // Fallback for demo mode only
     const link = STRIPE_LINKS[winnerProfile];
-
     if (link.includes('REPLACE')) {
-        // Demo mode: show result directly
         showResult(winnerProfile);
-    } else {
-        // Production: store profile in localStorage then redirect to Stripe
-        localStorage.setItem('nt_profile', winnerProfile);
-        localStorage.setItem('nt_ts', Date.now().toString());
-        window.location.href = link;
     }
 }
+
+// --- Listen for Stripe Buy Button payment completion ---
+// Store profile before payment so we can retrieve it after
+function storeProfileForPayment() {
+    if (winnerProfile) {
+        localStorage.setItem('nt_profile', winnerProfile);
+        localStorage.setItem('nt_ts', Date.now().toString());
+    }
+}
+
+// Watch for reveal section becoming active to store profile
+const revObserver = new MutationObserver(() => {
+    const revSection = document.getElementById('s-rev');
+    if (revSection && revSection.classList.contains('on')) {
+        storeProfileForPayment();
+    }
+});
+document.addEventListener('DOMContentLoaded', () => {
+    const revSection = document.getElementById('s-rev');
+    if (revSection) {
+        revObserver.observe(revSection, { attributes: true, attributeFilter: ['class'] });
+    }
+});
 
 // --- Check for payment return ---
 function checkPaymentReturn() {
     const params = new URLSearchParams(window.location.search);
 
-    // Stripe redirects back with ?success=true or similar
-    if (params.has('success') || params.has('session_id')) {
+    // Stripe Buy Button or Payment Link return
+    if (params.has('success') || params.has('session_id') || window.location.hash === '#success') {
         const storedProfile = localStorage.getItem('nt_profile');
         const ts = parseInt(localStorage.getItem('nt_ts') || '0');
         const now = Date.now();
 
-        // Valid if profile exists and was stored less than 1 hour ago
-        if (storedProfile && PROFILES[storedProfile] && (now - ts) < 3600000) {
+        if (storedProfile && PROFILES[storedProfile] && (now - ts) < 7200000) {
             localStorage.removeItem('nt_profile');
             localStorage.removeItem('nt_ts');
+            // Clean URL
+            window.history.replaceState({}, '', window.location.pathname);
             showResult(storedProfile);
             return true;
         }
     }
 
-    // Also check direct profile param (for testing)
+    // Direct profile param for testing
     if (params.has('profil')) {
         const p = params.get('profil').toUpperCase();
         if (PROFILES[p]) {
