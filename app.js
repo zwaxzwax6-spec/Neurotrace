@@ -125,9 +125,10 @@ function showReveal() {
     winnerProfile = getWinner();
     const profile = PROFILES[winnerProfile];
 
-    document.getElementById('rev-name').textContent = profile.name;
-    document.getElementById('rev-name').style.color = profile.color;
-    document.getElementById('rev-teaser').textContent = profile.teaser;
+    // DON'T show profile name - just say it's ready
+    document.getElementById('rev-name').textContent = 'Ton profil est prêt.';
+    document.getElementById('rev-name').style.color = 'var(--warm)';
+    document.getElementById('rev-teaser').textContent = 'Ton analyse complète t\'attend — ton profil, tes forces, tes schémas destructeurs et comment en sortir.';
 
     // Build blurred preview cards
     const wrap = document.getElementById('blur-preview');
